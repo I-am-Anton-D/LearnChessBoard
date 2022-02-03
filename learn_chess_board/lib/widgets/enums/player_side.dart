@@ -1,0 +1,4 @@
+enum PlayerSide{
+  white,
+  black
+}

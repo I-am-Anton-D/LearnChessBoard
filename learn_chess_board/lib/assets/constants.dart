@@ -9,8 +9,11 @@ const Color WHITE_COLOR = Color(0xffeeeed2);
 const Color BLACK_COLOR = Color(0xff769656);
 const Color COMMON_BACKGROUND = Color(0xff312e2b);
 const Color TEXT_COLOR = Colors.white;
+const Color BUTTON_BACKGROUND_COLOR = Color(0xff85aa53);
+const Color BUTTON_TEXT_COLOR = Colors.white;
+const Color GREY_BACKGROUD_COLOR = Color(0xff666666);
 
 //Strings
 const String APP_NAME = "Learn Chess Board";
 const String SELECT_BOARD_LABEL = "Select board label type:";
-const String SELECT_TIMER = "Select time for training, minute:";
+const String SELECT_SIDE = "Select player side:";

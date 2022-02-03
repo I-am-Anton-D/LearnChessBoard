@@ -1,32 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:learn_chess_board/assets/constants.dart';
-import 'field_label_type.dart';
-
+import 'enums/field_label_type.dart';
+import 'enums/player_side.dart';
 
 class Field extends StatelessWidget {
+  late final index;
   late final int row;
   late final int column;
   late final FieldLabelType labelType;
+  late final PlayerSide playerSide;
   late final bool isBlack;
+  late final Function(int, String) fieldPressHolder;
+  late final String label;
 
-  Field(int index, FieldLabelType type) {
+  Field(int idx, FieldLabelType type, PlayerSide side,
+      Function(int, String) pressHolder) {
+    index = idx;
     row = index ~/ 8;
     column = index - row * 8;
     labelType = type;
     isBlack = _isBlack();
+    playerSide = side;
+    fieldPressHolder = pressHolder;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(DIM_FIELD_PADDING),
-      color: _getColorFofField(),
-      child: _buildFieldLabel(labelType),
-      alignment: _getAlignment(labelType),
+    return TextButton(
+      onPressed: () => fieldPressHolder(index, _getFieldLabel()),
+      style: TextButton.styleFrom(
+          padding: EdgeInsets.zero, alignment: Alignment.center),
+      child: Container(
+        padding: const EdgeInsets.all(DIM_FIELD_PADDING),
+        color: _getColorForField(),
+        child: _buildFieldLabel(),
+        alignment: _getAlignment(),
+      ),
     );
   }
 
-  Color _getColorFofField() => isBlack ? BLACK_COLOR : WHITE_COLOR;
+  Color _getColorForField() => isBlack ? BLACK_COLOR : WHITE_COLOR;
 
   Color _getColorForText() => isBlack ? WHITE_COLOR : BLACK_COLOR;
 
@@ -43,18 +56,38 @@ class Field extends StatelessWidget {
     return row % 2 == 0;
   }
 
-  Widget _buildFieldLabel(FieldLabelType labelType) {
+  Widget _buildFieldLabel() {
     return Text(
-      _getTextForFieldLabel(labelType),
+      _getTextForFieldLabel(),
       style: TextStyle(color: _getColorForText()),
     );
   }
 
-  String _getTextForFieldLabel(FieldLabelType labelType) {
-    String label = "";
+  String _getFieldLabel() {
+    String columnLabel = "";
+    String rowLabel = "";
+    if (playerSide == PlayerSide.white) {
+      columnLabel = String.fromCharCode('A'.codeUnitAt(0) + column);
+      rowLabel = (7 - row + 1).toString();
+    } else {
+      columnLabel = String.fromCharCode('H'.codeUnitAt(0) - column);
+      rowLabel = (row + 1).toString();
+    }
+    return columnLabel + rowLabel;
+  }
 
-    String columnLabel = String.fromCharCode('A'.codeUnitAt(0) + column);
-    String rowLabel = (7 - row + 1).toString();
+  String _getTextForFieldLabel() {
+    String label = "";
+    String columnLabel = "";
+    String rowLabel = "";
+
+    if (playerSide == PlayerSide.white) {
+      columnLabel = String.fromCharCode('A'.codeUnitAt(0) + column);
+      rowLabel = (7 - row + 1).toString();
+    } else {
+      columnLabel = String.fromCharCode('H'.codeUnitAt(0) - column);
+      rowLabel = (row + 1).toString();
+    }
 
     if (labelType == FieldLabelType.full) {
       label = columnLabel + rowLabel;
@@ -71,11 +104,10 @@ class Field extends StatelessWidget {
         label = columnLabel + rowLabel;
       }
     }
-
     return label;
   }
 
-  Alignment _getAlignment(FieldLabelType labelType) {
+  Alignment _getAlignment() {
     return labelType == FieldLabelType.firstLine
         ? Alignment.bottomLeft
         : Alignment.center;
