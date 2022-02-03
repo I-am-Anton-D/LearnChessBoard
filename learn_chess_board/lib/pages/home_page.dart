@@ -20,9 +20,11 @@ class _HomePage extends State<HomePage> {
   int _passed = 0;
   String _youPick = "";
   String _nextField = "";
+  String _timeString = "00:00";
   FieldLabelType _selectedRadioGroupType = FieldLabelType.full;
   PlayerSide _selectedPlayerSide = PlayerSide.white;
   int _startTimer = 0;
+
   late Timer _timer;
 
   @override
@@ -159,8 +161,10 @@ class _HomePage extends State<HomePage> {
         _started = false;
         _timer.cancel();
         _startTimer = 0;
+        showAlertDialog(context);
       } else {
         startTimer();
+        _timeString = "00:00";
         _fails = 0;
         _passed = 0;
         _nextField = GameEngine.nextField();
@@ -170,6 +174,36 @@ class _HomePage extends State<HomePage> {
     });
   }
 
+  void showAlertDialog(BuildContext context) {
+    Widget okButton = TextButton(
+      child: const Text("OK"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: COMMON_BACKGROUND,
+      title: const Text("Training over", style: TextStyle(color: Colors.white)),
+      content: Text('''
+Full time: $_timeString  
+Passed count: $_passed
+Fail count: $_fails ''', style: const TextStyle(color: Colors.white)),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
@@ -177,6 +211,7 @@ class _HomePage extends State<HomePage> {
       (Timer timer) => setState(
         () {
           _startTimer++;
+          _timeString = getTimeString();
         },
       ),
     );
@@ -204,7 +239,7 @@ class _HomePage extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Time: $_startTimer'),
+              Text('Time: $_timeString'),
               Container(height: 10),
               Text('Correct count: $_passed',
                   style: const TextStyle(color: Colors.green)),
@@ -232,5 +267,15 @@ class _HomePage extends State<HomePage> {
       _youPick = youPick;
       _nextField = GameEngine.nextField();
     });
+  }
+
+  String getTimeString() {
+    final duration = Duration(seconds: _startTimer);
+    final minutes = duration.inMinutes;
+    final seconds = _startTimer % 60;
+
+    final minutesString = '$minutes'.padLeft(2, '0');
+    final secondsString = '$seconds'.padLeft(2, '0');
+    return '$minutesString:$secondsString';
   }
 }
