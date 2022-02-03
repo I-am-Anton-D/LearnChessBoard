@@ -12,9 +12,16 @@ class LearnChessBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: APP_NAME,
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage()
-    );
+        title: APP_NAME,
+        theme: ThemeData(
+          unselectedWidgetColor: TEXT_COLOR,
+          toggleableActiveColor: Colors.red,
+          textTheme: const TextTheme(
+            bodyText2: TextStyle(
+              color: TEXT_COLOR,
+            ),
+          ),
+        ),
+        home: const HomePage());
   }
 }

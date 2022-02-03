@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learn_chess_board/assets/constants.dart';
-import 'package:learn_chess_board/widgets/field_label_type.dart';
+import 'field_label_type.dart';
+
 
 class Field extends StatelessWidget {
   late final int row;
@@ -26,8 +27,8 @@ class Field extends StatelessWidget {
   }
 
   Color _getColorFofField() => isBlack ? BLACK_COLOR : WHITE_COLOR;
-  Color _getColorForText() => isBlack ? WHITE_COLOR : BLACK_COLOR;
 
+  Color _getColorForText() => isBlack ? WHITE_COLOR : BLACK_COLOR;
 
   bool _isBlack() {
     return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) ||
@@ -43,10 +44,9 @@ class Field extends StatelessWidget {
   }
 
   Widget _buildFieldLabel(FieldLabelType labelType) {
-    return Text(_getTextForFieldLabel(labelType),
-      style: TextStyle(
-        color: _getColorForText()
-      ),
+    return Text(
+      _getTextForFieldLabel(labelType),
+      style: TextStyle(color: _getColorForText()),
     );
   }
 
@@ -76,9 +76,8 @@ class Field extends StatelessWidget {
   }
 
   Alignment _getAlignment(FieldLabelType labelType) {
-    if (labelType == FieldLabelType.firstLine) {
-      return Alignment.bottomLeft;
-    }
-    return Alignment.center;
+    return labelType == FieldLabelType.firstLine
+        ? Alignment.bottomLeft
+        : Alignment.center;
   }
 }
