@@ -1,32 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:learn_chess_board/assets/constants.dart';
+import 'package:learn_chess_board/data/game_data.dart';
+import 'package:learn_chess_board/service/game_engine.dart';
+
 import 'enums/field_label_type.dart';
 import 'enums/player_side.dart';
 
+import 'package:provider/provider.dart';
+
+
 class Field extends StatelessWidget {
-  late final int index;
-  late final int row;
+  final int index;
+  final FieldLabelType labelType;
+  final PlayerSide playerSide;
+
   late final int column;
-  late final FieldLabelType labelType;
-  late final PlayerSide playerSide;
+  late final int row;
   late final bool isBlack;
-  late final Function(int, String) fieldPressHolder;
   late final String label;
 
-  Field(int idx, FieldLabelType type, PlayerSide side, Function(int, String) pressHolder) {
-    index = idx;
+  Field(
+      {Key? key,
+      required this.index,
+      required this.labelType,
+      required this.playerSide})
+      : super(key: key) {
     row = index ~/ 8;
     column = index - row * 8;
-    labelType = type;
     isBlack = _isBlack();
-    playerSide = side;
-    fieldPressHolder = pressHolder;
   }
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => fieldPressHolder(index, _getFieldLabel()),
+      onPressed: () => _onFieldPress(index, _getFieldLabel(), context),
       style: TextButton.styleFrom(padding: EdgeInsets.zero, alignment: Alignment.center),
       child: Container(
         padding: const EdgeInsets.all(DIM_FIELD_PADDING),
@@ -42,7 +49,8 @@ class Field extends StatelessWidget {
   Color _getColorForText() => isBlack ? WHITE_COLOR : BLACK_COLOR;
 
   bool _isBlack() {
-    return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) || (!_isColumnIndexEven(column) && _isRowIndexEven(row));
+    return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) ||
+        (!_isColumnIndexEven(column) && _isRowIndexEven(row));
   }
 
   bool _isColumnIndexEven(int col) {
@@ -106,5 +114,18 @@ class Field extends StatelessWidget {
 
   Alignment _getAlignment() {
     return labelType == FieldLabelType.firstLine ? Alignment.bottomLeft : Alignment.center;
+  }
+
+  _onFieldPress(int index, String youPick, BuildContext context) {
+    var state = context.read<GameData>();
+    if (!state.isStarted) return;
+
+    if (GameEngine.validate(index, state.getSide)) {
+      state.incPassed();
+    } else {
+      state.incFails();
+    }
+    state.setPick(youPick);
+    state.generateNextField();
   }
 }

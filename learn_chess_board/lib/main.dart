@@ -27,6 +27,7 @@ class LearnChessBoard extends StatelessWidget {
     return ThemeData(
       unselectedWidgetColor: TEXT_COLOR,
       toggleableActiveColor: Colors.red,
+      primarySwatch: Colors.amber,
       textTheme: const TextTheme(
         bodyText2: TextStyle(
           color: TEXT_COLOR,

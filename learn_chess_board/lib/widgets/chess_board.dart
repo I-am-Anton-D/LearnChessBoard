@@ -6,17 +6,18 @@ import 'enums/player_side.dart';
 import 'field.dart';
 
 class ChessBoard extends StatelessWidget {
-  final Function(int,String) fieldPressHolder;
-
-  ChessBoard({Key? key, required this.fieldPressHolder}) : super(key: key);
+  const ChessBoard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
       itemCount: 64,
-      itemBuilder: (BuildContext context, int index) =>
-         Field(index, context.watch<GameData>().getLabelType, context.watch<GameData>().getSide, fieldPressHolder),
+      itemBuilder: (BuildContext context, int index) => Field(
+          index: index,
+          labelType: context.watch<GameData>().getLabelType,
+          playerSide: context.watch<GameData>().getSide,
+          ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 8,
         mainAxisSpacing: 0.0,
