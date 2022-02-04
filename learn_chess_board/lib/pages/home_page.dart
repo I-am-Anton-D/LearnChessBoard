@@ -35,17 +35,4 @@ class _HomePage extends State<HomePage> {
       ),
     );
   }
-
-  void startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(
-        () {
-          _startTimer++;
-          _timeString = TextUtils.getTimeString(123);
-        },
-      ),
-    );
-  }
 }

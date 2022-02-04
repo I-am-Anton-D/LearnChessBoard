@@ -34,13 +34,9 @@ class StartButton extends StatelessWidget {
     var state = context.read<GameData>();
     if (state.isStarted) {
       state.stopGame();
-      // _timer.cancel();
-      //_startTimer = 0;
       DialogHelper.showAlertDialog(context);
     } else {
-      //startTimer();
       state.reset();
-      //_timeString = "00:00";
       state.startGame();
     }
   }

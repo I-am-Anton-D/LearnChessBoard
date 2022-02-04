@@ -28,7 +28,7 @@ class ProgressGameTV extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Time: '),
+              Text('Time: ${context.watch<GameData>().getTimeString}'),
               Container(height: 10),
               Text('Correct count:  ${context.watch<GameData>().getPassed}',
                   style: const TextStyle(color: Colors.green)),

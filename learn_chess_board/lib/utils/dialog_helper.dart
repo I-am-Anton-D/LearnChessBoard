@@ -12,12 +12,12 @@ class DialogHelper {
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       backgroundColor: COMMON_BACKGROUND,
       title: const Text("Training over", style: TextStyle(color: Colors.white)),
+      //Как то сделать по человески надо тут...
       content: Text('''
-Full time:   
+Full time:   ${context.read<GameData>().getTimeString} 
 Passed count: ${context.read<GameData>().getPassed}
 Fail count: ${context.read<GameData>().getFails} ''', style: const TextStyle(color: Colors.white)),
       actions: [
@@ -25,7 +25,6 @@ Fail count: ${context.read<GameData>().getFails} ''', style: const TextStyle(col
       ],
     );
 
-    // show the dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
