@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:learn_chess_board/data/game_data.dart';
 import 'package:learn_chess_board/pages/home_page.dart';
+import 'package:provider/provider.dart';
 import 'assets/constants.dart';
 
 //Entry Point
@@ -11,17 +13,25 @@ class LearnChessBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: APP_NAME,
-        theme: ThemeData(
-          unselectedWidgetColor: TEXT_COLOR,
-          toggleableActiveColor: Colors.red,
-          textTheme: const TextTheme(
-            bodyText2: TextStyle(
-              color: TEXT_COLOR,
-            ),
-          ),
+    return ChangeNotifierProvider<GameData>(
+      create: (BuildContext context) => GameData(),
+      child: MaterialApp(
+          title: APP_NAME,
+          theme: _getAppTheme(),
+          home: const HomePage()),
+    );
+  }
+
+  //App theme
+  ThemeData _getAppTheme() {
+    return ThemeData(
+      unselectedWidgetColor: TEXT_COLOR,
+      toggleableActiveColor: Colors.red,
+      textTheme: const TextTheme(
+        bodyText2: TextStyle(
+          color: TEXT_COLOR,
         ),
-        home: const HomePage());
+      ),
+    );
   }
 }

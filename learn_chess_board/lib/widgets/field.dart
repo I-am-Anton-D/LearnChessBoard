@@ -4,7 +4,7 @@ import 'enums/field_label_type.dart';
 import 'enums/player_side.dart';
 
 class Field extends StatelessWidget {
-  late final index;
+  late final int index;
   late final int row;
   late final int column;
   late final FieldLabelType labelType;
@@ -13,8 +13,7 @@ class Field extends StatelessWidget {
   late final Function(int, String) fieldPressHolder;
   late final String label;
 
-  Field(int idx, FieldLabelType type, PlayerSide side,
-      Function(int, String) pressHolder) {
+  Field(int idx, FieldLabelType type, PlayerSide side, Function(int, String) pressHolder) {
     index = idx;
     row = index ~/ 8;
     column = index - row * 8;
@@ -28,8 +27,7 @@ class Field extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () => fieldPressHolder(index, _getFieldLabel()),
-      style: TextButton.styleFrom(
-          padding: EdgeInsets.zero, alignment: Alignment.center),
+      style: TextButton.styleFrom(padding: EdgeInsets.zero, alignment: Alignment.center),
       child: Container(
         padding: const EdgeInsets.all(DIM_FIELD_PADDING),
         color: _getColorForField(),
@@ -44,8 +42,7 @@ class Field extends StatelessWidget {
   Color _getColorForText() => isBlack ? WHITE_COLOR : BLACK_COLOR;
 
   bool _isBlack() {
-    return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) ||
-        (!_isColumnIndexEven(column) && _isRowIndexEven(row));
+    return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) || (!_isColumnIndexEven(column) && _isRowIndexEven(row));
   }
 
   bool _isColumnIndexEven(int col) {
@@ -108,8 +105,6 @@ class Field extends StatelessWidget {
   }
 
   Alignment _getAlignment() {
-    return labelType == FieldLabelType.firstLine
-        ? Alignment.bottomLeft
-        : Alignment.center;
+    return labelType == FieldLabelType.firstLine ? Alignment.bottomLeft : Alignment.center;
   }
 }
