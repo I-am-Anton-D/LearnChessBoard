@@ -18,7 +18,7 @@ class FieldLabelTypeSelector extends StatelessWidget {
             padding: const EdgeInsets.only(left: Dims.mediumPadding, top: Dims.mediumPadding),
             child: const Text(I10n.selectBoardLabel)),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          ...FieldLabelType.values.map((it) =>_buildFieldLabelRadioButton(it, it.getLabel, context)).toList(),
+          ...FieldLabelType.values.map((it) =>_buildFieldLabelRadioButton(it, it.getLabel, context)),
         ])
       ],
     );

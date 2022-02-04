@@ -16,7 +16,7 @@ class PlayerSideSelector extends StatelessWidget {
             padding: const EdgeInsets.only(left: Dims.mediumPadding),
             child: const Text(I10n.selectSide)),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          ...PlayerSide.values.map((it)=> _buildPlayerSideRadioButton(it, it.getLabel, context)).toList()
+          ...PlayerSide.values.map((it)=> _buildPlayerSideRadioButton(it, it.getLabel, context))
         ]),
       ],
     );

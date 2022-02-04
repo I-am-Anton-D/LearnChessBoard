@@ -13,8 +13,8 @@ class ChessBoard extends StatelessWidget {
       itemCount: 64,
       itemBuilder: (BuildContext context, int index) => Field(
           index: index,
-          labelType: context.watch<GameData>().getLabelType, //FULL, FIRST LINE, NONE
-          playerSide: context.watch<GameData>().getSide, //WHITE SIDE, BLACK SIDE
+          labelType: context.watch<GameData>().getLabelType,  //FULL, FIRST LINE, NONE
+          playerSide: context.watch<GameData>().getSide,      //WHITE SIDE, BLACK SIDE
           ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 8,

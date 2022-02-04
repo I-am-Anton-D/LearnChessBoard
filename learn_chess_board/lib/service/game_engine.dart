@@ -22,7 +22,7 @@ class GameEngine {
     return getFieldLabel();
   }
 
-  //Если выбран черный цвет, то инфертируем индекс на 63, на полек 64 клетки
+  //Если выбран черный цвет, то инвертируем индекс на 63, на поле 64 клетки
   static bool validateUserPick(int pickFieldIndex, PlayerSide selectedPlayerSide) {
     return selectedPlayerSide == PlayerSide.white
         ? pickFieldIndex == randomFieldIndex

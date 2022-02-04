@@ -5,18 +5,20 @@ import 'package:learn_chess_board/utils/text_utils.dart';
 import 'package:learn_chess_board/widgets/enums/field_label_type.dart';
 import 'package:learn_chess_board/widgets/enums/player_side.dart';
 
+//Game State
 class GameData with ChangeNotifier {
-  FieldLabelType _selectedLabelType = FieldLabelType.full;
-  PlayerSide _selectedPlayerSide = PlayerSide.white;
+  FieldLabelType _selectedLabelType = FieldLabelType.full;    //FULL, FIRST LINE, NONE
+  PlayerSide _selectedPlayerSide = PlayerSide.white;          //WHITE, BLACK
   bool _started = false;
-  int _passed = 0;
-  int _fails = 0;
-  int _gameSeconds = 0;
+  int _passed = 0;                                            //Correct answers in game
+  int _fails = 0;                                             //Not correct answers
+  int _gameSeconds = 0;                                       //Play time
 
-  String _nextField = GameEngine.nextField();
-  String _youPick = "";
-  String _timeString = "00:00";
+  String _nextField = GameEngine.nextField();                 //Random game field
+  String _youPick = "";                                       //User pick
+  String _timeString = "00:00";                               //Show time string
 
+  //Getters for private fields
   FieldLabelType get getLabelType => _selectedLabelType;
   PlayerSide get getSide => _selectedPlayerSide;
   bool get isStarted => _started;
@@ -49,7 +51,6 @@ class GameData with ChangeNotifier {
     _nextField = GameEngine.nextField();
     notifyListeners();
   }
-
 
   incPassed() {
     _passed++;

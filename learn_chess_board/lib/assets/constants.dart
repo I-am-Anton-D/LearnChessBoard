@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 class Dims {
   static const double bodyPadding = 5;
   static const double fieldPadding = 3;
+  static const double bigPadding = 20;
   static const double mediumPadding = 15;
   static const double smallPadding = 10;
   static const double smallRadius = 5;
+  static const double buttonHeight = 50;
+  static const double extraBigFontSize = 45;
+
 }
 
 //Colors
@@ -34,5 +38,7 @@ class I10n {
   static const String correctCount = "Correct count: ";
   static const String failsCunt = "Fails count: ";
   static const String youPick = "You pick: ";
+  static const String start = "START";
+  static const String stop = "STOP";
 
 }

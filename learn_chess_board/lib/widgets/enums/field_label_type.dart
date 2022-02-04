@@ -1,4 +1,4 @@
-//Enum for cheesboard fields labels
+//Enum for chessboard fields labels
 import 'package:learn_chess_board/assets/constants.dart';
 
 enum FieldLabelType {
