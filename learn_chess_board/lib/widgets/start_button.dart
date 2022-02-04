@@ -18,13 +18,13 @@ class StartButton extends StatelessWidget {
             },
             child: Container(
                 decoration: BoxDecoration(
-                    color: BUTTON_BACKGROUND_COLOR, borderRadius: BorderRadius.circular(5)),
+                    color: AppColors.buttonBackground, borderRadius: BorderRadius.circular(5)),
                 alignment: Alignment.center,
                 width: double.infinity,
                 height: 50,
                 child: Text(
                   context.watch<GameData>().isStarted ? "STOP" : "START",
-                  style: const TextStyle(color: BUTTON_TEXT_COLOR, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: AppColors.buttonText, fontWeight: FontWeight.bold),
                 ))),
       ),
     );

@@ -25,20 +25,20 @@ class GameData with ChangeNotifier {
   String get getNextField => _nextField;
   String get getYouPick => _youPick;
   String get getTimeString => _timeString;
-
   Timer? _timer;
 
-  _updateTimeString() {
-    _timeString = TextUtils.getTimeString(_gameSeconds);
+  startGame() {
+    _started = true;
+    _gameSeconds = 0;
+    _timeString = "00:00";
+    _startTimer();
     notifyListeners();
   }
 
-  setPick(String pick) {
-    _youPick = pick;
-  }
-
-  generateNextField() {
-    _nextField = GameEngine.nextField();
+  stopGame() {
+    _timer?.cancel();
+    _started = false;
+    notifyListeners();
   }
 
   reset() {
@@ -50,6 +50,7 @@ class GameData with ChangeNotifier {
     notifyListeners();
   }
 
+
   incPassed() {
     _passed++;
     notifyListeners();
@@ -60,19 +61,7 @@ class GameData with ChangeNotifier {
     notifyListeners();
   }
 
-  startGame() {
-    _started = true;
-    _gameSeconds = 0;
-    _timeString = "00:00";
-    startTimer();
-    notifyListeners();
-  }
-
-  stopGame() {
-    _timer?.cancel();
-    _started = false;
-    notifyListeners();
-  }
+  setPick(String pick) => _youPick = pick;
 
   selectType(FieldLabelType type) {
     _selectedLabelType = type;
@@ -84,14 +73,18 @@ class GameData with ChangeNotifier {
     notifyListeners();
   }
 
-  void startTimer() {
+  generateNextField() => _nextField = GameEngine.nextField();
+
+  _startTimer() {
     const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(
-      oneSec,
-          (Timer timer) {
-            _gameSeconds++;
-            _updateTimeString();
-          }
-    );
+    _timer = Timer.periodic(oneSec, (Timer timer) {
+      _gameSeconds++;
+      _updateTimeString();
+    });
+  }
+
+  _updateTimeString() {
+    _timeString = TextUtils.getTimeString(_gameSeconds);
+    notifyListeners();
   }
 }

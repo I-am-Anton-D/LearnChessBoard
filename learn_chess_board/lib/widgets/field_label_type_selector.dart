@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'enums/field_label_type.dart';
 
+//Radio group selector for filed label
 class FieldLabelTypeSelector extends StatelessWidget {
   const FieldLabelTypeSelector({Key? key}) : super(key: key);
 
@@ -14,34 +15,25 @@ class FieldLabelTypeSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            padding: const EdgeInsets.only(left: DIM_MEDIUM_PADDING, top: DIM_MEDIUM_PADDING),
-            child: const Text(SELECT_BOARD_LABEL)),
+            padding: const EdgeInsets.only(left: Dims.mediumPadding, top: Dims.mediumPadding),
+            child: const Text(I10n.selectBoardLabel)),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          _buildFieldLabelRadioButton(FieldLabelType.full, context),
-          const Text('FULL'),
-          _buildFieldLabelRadioButton(FieldLabelType.firstLine, context),
-          const Text('FIRST LINE'),
-          _buildFieldLabelRadioButton(FieldLabelType.none, context),
-          const Text('NONE')
+          ...FieldLabelType.values.map((it) =>_buildFieldLabelRadioButton(it, it.getLabel, context)).toList(),
         ])
       ],
     );
   }
 
   //Create label type Radio Button
-  Radio<FieldLabelType> _buildFieldLabelRadioButton(FieldLabelType typeValue,
-      BuildContext context) {
-    return Radio(
-      value: typeValue,
-      groupValue: context
-          .watch<GameData>()
-          .getLabelType,
-      onChanged: (value) {
-        if (value == null) return;
-        context.read<GameData>().selectType(value);
-      },
-      toggleable: true,
-    );
+  Widget _buildFieldLabelRadioButton(FieldLabelType typeValue,
+      String radioLabel, BuildContext context) {
+    return Row(children: [
+      Radio(
+        value: typeValue,
+        groupValue: context.watch<GameData>().getLabelType,
+        onChanged: (value) => context.read<GameData>().selectType(value as FieldLabelType)
+      ),
+      Text(radioLabel)
+    ]);
   }
-
 }

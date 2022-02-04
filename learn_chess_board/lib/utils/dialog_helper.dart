@@ -13,7 +13,7 @@ class DialogHelper {
     );
 
     AlertDialog alert = AlertDialog(
-      backgroundColor: COMMON_BACKGROUND,
+      backgroundColor: AppColors.commonBackground,
       title: const Text("Training over", style: TextStyle(color: Colors.white)),
       //Как то сделать по человески надо тут...
       content: Text('''

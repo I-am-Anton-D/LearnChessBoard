@@ -16,8 +16,8 @@ class ProgressGameTV extends StatelessWidget {
           width: 110,
           alignment: Alignment.center,
           decoration:
-              BoxDecoration(color: GREY_BACKGROUD_COLOR, borderRadius: BorderRadius.circular(5)),
-          margin: const EdgeInsets.only(left: 10, top: 15),
+              BoxDecoration(color: AppColors.greyBackground, borderRadius: BorderRadius.circular(Dims.smallRadius)),
+          margin: const EdgeInsets.only(left: Dims.smallPadding, top: Dims.mediumPadding),
           child: Text(
             context.watch<GameData>().getNextField,
             style: const TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
@@ -28,15 +28,15 @@ class ProgressGameTV extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Time: ${context.watch<GameData>().getTimeString}'),
-              Container(height: 10),
-              Text('Correct count:  ${context.watch<GameData>().getPassed}',
+              Text(I10n.time + context.watch<GameData>().getTimeString),
+              const SizedBox(height: 10),
+              Text(I10n.correctCount + context.watch<GameData>().getPassed.toString(),
                   style: const TextStyle(color: Colors.green)),
-              Container(height: 10),
-              Text('Fails count:  ${context.watch<GameData>().getFails}',
+              const SizedBox(height: 10),
+              Text(I10n.failsCunt + context.watch<GameData>().getFails.toString(),
                   style: const TextStyle(color: Colors.red)),
-              Container(height: 10),
-              Text('You pick: ${context.watch<GameData>().getYouPick}',
+              const SizedBox(height: 10),
+              Text(I10n.youPick +  context.watch<GameData>().getYouPick,
                   style: const TextStyle(color: Colors.yellow))
             ],
           ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:learn_chess_board/data/game_data.dart';
-import 'package:learn_chess_board/widgets/enums/field_label_type.dart';
-import 'package:provider/src/provider.dart';
-import 'enums/player_side.dart';
+import 'package:provider/provider.dart';
 import 'field.dart';
 
 class ChessBoard extends StatelessWidget {
@@ -15,8 +13,8 @@ class ChessBoard extends StatelessWidget {
       itemCount: 64,
       itemBuilder: (BuildContext context, int index) => Field(
           index: index,
-          labelType: context.watch<GameData>().getLabelType,
-          playerSide: context.watch<GameData>().getSide,
+          labelType: context.watch<GameData>().getLabelType, //FULL, FIRST LINE, NONE
+          playerSide: context.watch<GameData>().getSide, //WHITE SIDE, BLACK SIDE
           ),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 8,

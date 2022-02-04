@@ -1,18 +1,15 @@
 import 'dart:math';
-
 import 'package:learn_chess_board/widgets/enums/player_side.dart';
 
 class GameEngine {
   static Random random = Random();
-  static int index = -1;
+  static int randomFieldIndex = -1;
 
-  static int getRandomField() {
-    return random.nextInt(63);
-  }
+  static int getRandomField() => random.nextInt(63);
 
   static String getFieldLabel() {
-    int row = index ~/ 8;
-    int column = index - row * 8;
+    int row = randomFieldIndex ~/ 8;
+    int column = randomFieldIndex - row * 8;
 
     String columnLabel = String.fromCharCode('A'.codeUnitAt(0) + column);
     String rowLabel = (7 - row + 1).toString();
@@ -21,15 +18,14 @@ class GameEngine {
   }
 
   static String nextField() {
-    index = getRandomField();
+    randomFieldIndex = getRandomField();
     return getFieldLabel();
   }
 
-  static bool validate(int pickFieldIndex, PlayerSide selectedPlayerSide) {
-    if (selectedPlayerSide == PlayerSide.white) {
-      return pickFieldIndex == index;
-    } else {
-      return 63 - pickFieldIndex == index;
-    }
+  //Если выбран черный цвет, то инфертируем индекс на 63, на полек 64 клетки
+  static bool validateUserPick(int pickFieldIndex, PlayerSide selectedPlayerSide) {
+    return selectedPlayerSide == PlayerSide.white
+        ? pickFieldIndex == randomFieldIndex
+        : 63 - pickFieldIndex == randomFieldIndex;
   }
 }

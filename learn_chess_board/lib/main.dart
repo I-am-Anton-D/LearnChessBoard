@@ -16,7 +16,7 @@ class LearnChessBoard extends StatelessWidget {
     return ChangeNotifierProvider<GameData>(
       create: (BuildContext context) => GameData(),
       child: MaterialApp(
-          title: APP_NAME,
+          title: I10n.appName,
           theme: _getAppTheme(),
           home: const HomePage()),
     );
@@ -25,12 +25,12 @@ class LearnChessBoard extends StatelessWidget {
   //App theme
   ThemeData _getAppTheme() {
     return ThemeData(
-      unselectedWidgetColor: TEXT_COLOR,
+      unselectedWidgetColor: AppColors.commonText,
       toggleableActiveColor: Colors.red,
       primarySwatch: Colors.amber,
       textTheme: const TextTheme(
         bodyText2: TextStyle(
-          color: TEXT_COLOR,
+          color: AppColors.commonText,
         ),
       ),
     );

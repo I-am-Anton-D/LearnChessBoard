@@ -13,28 +13,24 @@ class PlayerSideSelector extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-            padding: const EdgeInsets.only(left: DIM_MEDIUM_PADDING),
-            child: const Text(SELECT_SIDE)),
+            padding: const EdgeInsets.only(left: Dims.mediumPadding),
+            child: const Text(I10n.selectSide)),
         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          _buildPlayerSideRadioButton(PlayerSide.white, context),
-          const Text('WHITE'),
-          _buildPlayerSideRadioButton(PlayerSide.black, context),
-          const Text('BLACK')
+          ...PlayerSide.values.map((it)=> _buildPlayerSideRadioButton(it, it.getLabel, context)).toList()
         ]),
       ],
     );
   }
 
   //Select player side Radio button
-  Radio<PlayerSide> _buildPlayerSideRadioButton(PlayerSide side, BuildContext context) {
-    return Radio(
-      value: side,
-      groupValue: context.watch<GameData>().getSide,
-      onChanged: (value) {
-        if (value == null) return;
-        context.read<GameData>().selectSide(value);
-      },
-      toggleable: true,
-    );
+  Widget _buildPlayerSideRadioButton(PlayerSide side, String radioLabel, BuildContext context) {
+    return Row(children: [
+      Radio(
+        value: side,
+        groupValue: context.watch<GameData>().getSide,
+        onChanged: (value) => context.read<GameData>().selectSide(value as PlayerSide)
+      ),
+      Text(radioLabel)
+    ]);
   }
 }
