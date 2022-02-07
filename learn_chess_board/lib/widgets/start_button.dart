@@ -35,9 +35,7 @@ class StartButton extends StatelessWidget {
   _onStartButton(BuildContext context) {
     var state = context.read<GameData>();
     if (state.isStarted) {
-      _timer?.cancel();
-      state.stopGame();
-      DialogHelper.showFinalDialog(context, _gameSeconds);
+      _stopGame(state, context);
     } else {
       _gameSeconds = 30;
       state.updateTimeString(_gameSeconds);
@@ -54,9 +52,15 @@ class StartButton extends StatelessWidget {
       _gameSeconds--;
       state.updateTimeString(_gameSeconds);
       if (_gameSeconds == 0) {
-        DialogHelper.showFinalDialog(context, 0);
-        state.stopGame();
+        _stopGame(state, context);
       }
     });
   }
+
+  void _stopGame(GameData state, BuildContext context) {
+    _timer?.cancel();
+    state.stopGame();
+    DialogHelper.showFinalDialog(context, _gameSeconds);
+  }
 }
+
