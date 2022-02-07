@@ -4,7 +4,7 @@ import 'package:learn_chess_board/data/game_data.dart';
 import 'package:provider/provider.dart';
 
 class DialogHelper {
-  static void showAlertDialog(BuildContext context) {
+  static void showFinalDialog(BuildContext context, int gameSeconds) {
     Widget okButton = TextButton(
       child: const Text("OK"),
       onPressed: () {
@@ -17,7 +17,7 @@ class DialogHelper {
       title: const Text("Training over", style: TextStyle(color: Colors.white)),
       //Как то сделать по человески надо тут...
       content: Text('''
-Full time:   ${context.read<GameData>().getTimeString} 
+Full time:   ${30 - gameSeconds} 
 Passed count: ${context.read<GameData>().getPassed}
 Fail count: ${context.read<GameData>().getFails} ''', style: const TextStyle(color: Colors.white)),
       actions: [

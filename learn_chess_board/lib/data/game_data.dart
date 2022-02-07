@@ -12,11 +12,9 @@ class GameData with ChangeNotifier {
   bool _started = false;
   int _passed = 0;                                            //Correct answers in game
   int _fails = 0;                                             //Not correct answers
-  int _gameSeconds = 0;                                       //Play time
-
   String _nextField = GameEngine.nextField();                 //Random game field
   String _youPick = "";                                       //User pick
-  String _timeString = "00:00";                               //Show time string
+  String _timeString = "00:30";                               //Show time string
 
   //Getters for private fields
   FieldLabelType get getLabelType => _selectedLabelType;
@@ -27,18 +25,14 @@ class GameData with ChangeNotifier {
   String get getNextField => _nextField;
   String get getYouPick => _youPick;
   String get getTimeString => _timeString;
-  Timer? _timer;
 
   startGame() {
     _started = true;
-    _gameSeconds = 0;
-    _timeString = "00:00";
-    _startTimer();
+    _timeString = "00:30";
     notifyListeners();
   }
 
   stopGame() {
-    _timer?.cancel();
     _started = false;
     notifyListeners();
   }
@@ -76,16 +70,8 @@ class GameData with ChangeNotifier {
 
   generateNextField() => _nextField = GameEngine.nextField();
 
-  _startTimer() {
-    const oneSec = Duration(seconds: 1);
-    _timer = Timer.periodic(oneSec, (Timer timer) {
-      _gameSeconds++;
-      _updateTimeString();
-    });
-  }
-
-  _updateTimeString() {
-    _timeString = TextUtils.getTimeString(_gameSeconds);
+  updateTimeString(int gameSeconds) {
+    _timeString = TextUtils.getTimeString(gameSeconds);
     notifyListeners();
   }
 }

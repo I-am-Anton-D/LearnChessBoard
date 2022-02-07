@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'enums/field_label_type.dart';
 import 'enums/player_side.dart';
 
-class Field extends StatelessWidget {
+class Field extends StatefulWidget {
   final int index;
   final FieldLabelType labelType;
   final PlayerSide playerSide;
@@ -36,14 +36,38 @@ class Field extends StatelessWidget {
     }
   }
 
+  _isBlack() {
+    return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) ||
+        (!_isColumnIndexEven(column) && _isRowIndexEven(row));
+  }
+
+  _isColumnIndexEven(int col) => col % 2 == 0;
+
+  _isRowIndexEven(int row) => row % 2 == 0;
+
+  @override
+  _Field createState() => _Field();
+}
+
+class _Field extends State<Field> {
+
+  Color fieldColor = Colors.black;
+
+
+  @override
+  void initState() {
+    super.initState();
+    fieldColor = widget.isBlack ? AppColors.blackField : AppColors.whiteField;
+  }
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => _onFieldPress(index, _getFieldLabel(), context),
+      onPressed: () => _onFieldPress(widget.index, _getFieldLabel(), context),
       style: TextButton.styleFrom(padding: EdgeInsets.zero, alignment: Alignment.center),
       child: Container(
         padding: const EdgeInsets.all(Dims.fieldPadding),
-        color: isBlack ? AppColors.blackField : AppColors.whiteField,
+        color: fieldColor,
         child: _buildFieldLabel(),
         alignment: _getAlignment(),
       ),
@@ -53,40 +77,32 @@ class Field extends StatelessWidget {
   _buildFieldLabel() {
     return Text(
       _getTextForFieldLabel(),
-      style: TextStyle(color: isBlack ? AppColors.whiteField : AppColors.blackField),
+      style: TextStyle(color: widget.isBlack ? AppColors.whiteField : AppColors.blackField),
     );
   }
 
-  _isBlack() {
-    return (_isColumnIndexEven(column) && !_isRowIndexEven(row)) ||
-        (!_isColumnIndexEven(column) && _isRowIndexEven(row));
-  }
+  _getAlignment() =>
+      widget.labelType == FieldLabelType.firstLine ? Alignment.bottomLeft : Alignment.center;
 
-  _isColumnIndexEven(int col) => col % 2 == 0;
-  _isRowIndexEven(int row) => row % 2 == 0;
-
-   _getAlignment() =>
-      labelType == FieldLabelType.firstLine ? Alignment.bottomLeft : Alignment.center;
-
-  _getFieldLabel() => columnLabel + rowLabel;
+  _getFieldLabel() => widget.columnLabel + widget.rowLabel;
 
 
   String _getTextForFieldLabel() {
     String label = "";
 
-    if (labelType == FieldLabelType.full) {
-      label = columnLabel + rowLabel;
+    if (widget.labelType == FieldLabelType.full) {
+      label = widget.columnLabel + widget.rowLabel;
     }
 
-    if (labelType == FieldLabelType.firstLine) {
-      if (row == 7) {
-        label = columnLabel;
+    if (widget.labelType == FieldLabelType.firstLine) {
+      if (widget.row == 7) {
+        label = widget.columnLabel;
       }
-      if (column == 0) {
-        label = rowLabel;
+      if (widget.column == 0) {
+        label = widget.rowLabel;
       }
-      if (row == 7 && column == 0) {
-        label = columnLabel + rowLabel;
+      if (widget.row == 7 && widget.column == 0) {
+        label = widget.columnLabel + widget.rowLabel;
       }
     }
     return label;
@@ -97,7 +113,23 @@ class Field extends StatelessWidget {
     var state = context.read<GameData>();
     if (!state.isStarted) return;
 
-    GameEngine.validateUserPick(userPickIndex, state.getSide) ? state.incPassed() : state.incFails();
+    if (GameEngine.validateUserPick(userPickIndex, state.getSide)) {
+      state.incPassed();
+      setState(() {
+        fieldColor = Colors.lightGreen;
+      });
+    } else {
+      state.incFails();
+      setState(() {
+        fieldColor = Colors.red;
+      });
+    }
+
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        fieldColor = widget.isBlack ? AppColors.blackField : AppColors.whiteField;
+      });
+    });
 
     state.setPick(youPick);
     state.generateNextField();

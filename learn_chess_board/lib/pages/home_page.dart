@@ -14,9 +14,9 @@ class HomePage extends StatelessWidget {
       body: Container(
         color: AppColors.commonBackground,
         child: Column(
-          children: const [
-            ChessBoard(), // Board
-            GameTv(), // Selectors, Game TV
+          children:  [
+            const ChessBoard(), // Board
+            const GameTv(), // Selectors, Game TV
             StartButton(), // Start / Stop
           ],
         ),
